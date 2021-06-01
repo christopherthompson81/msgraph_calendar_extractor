@@ -5,8 +5,8 @@
 1. Go to https://developer.microsoft.com/en-us/graph/graph-explorer
 2. Sign in to Graph Explorer
 3. Execute "Sample Queries" -> "Outlook Calendar" -> GET all events in my calendar
-    a. Satisfy the "consent" requirements of the API and run the query again.
-4. Copy the "Access Token" generated using this query.
+4. [First-Time] Satisfy the "consent" requirements of the API and run the query again.
+5. Copy the "Access Token" generated using this query.
 
 ## Part 2
 
