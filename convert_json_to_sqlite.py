@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
 SQLite functions for iCal storage
+
+start = datetime.datetime.strptime('2021-06-09T14:45:00.0000000 UTC', '%Y-%m-%dT%H:%M:%S.0000000 %Z')
 """
 # Standard Imports
+import datetime
 import json
 import os
 import sqlite3
@@ -142,7 +145,10 @@ CREATE TABLE calendars (
 	location TEXT,
 	locations TEXT,
 	attendees TEXT,
-	organizer TEXT
+	organizer TEXT,
+	p_start TEXT,
+	p_end TEXT,
+	duration NUMERIC
 );
 	"""
 	client_db.execute(query, [])
@@ -178,10 +184,17 @@ VALUES(
 	?, ?, ?, ?, ?,
 	?, ?, ?, ?, ?,
 	?, ?, ?, ?, ?,
-	?
+	?, ?, ?, ?
 )
 	"""
 	row_data = [str(event[key]) for key in event_keys]
+	format = '%Y-%m-%dT%H:%M:%S.0000000'
+	start = datetime.datetime.strptime(event['start']['dateTime'], format)
+	end = datetime.datetime.strptime(event['end']['dateTime'], format)
+	duration = (end - start).seconds/3600
+	row_data.append(datetime.datetime.strftime(start, '%Y-%m-%d %H:%M:%S'))
+	row_data.append(datetime.datetime.strftime(end, '%Y-%m-%d %H:%M:%S'))
+	row_data.append(duration)
 	client_db.execute(query, row_data)
 	client_db.commit()
 
